@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity
     Firebase myFirebaseRef;
     Account currentUser;
     Intent registerIntent;
+    Intent userHomeIntent;
 
 
     @Override
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity
         myFirebaseRef = new Firebase("https://blazing-heat-8324.firebaseio.com/");
         setContentView(R.layout.activity_main);
         registerIntent = new Intent(getApplicationContext(), Register.class);
+
+        userHomeIntent = new Intent(getApplicationContext(), UserHome.class);
 
         username = (EditText)this.findViewById(R.id.username);
         password = (EditText)this.findViewById(R.id.password);
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity
                         public void onAuthenticated(AuthData authData)
                         {
                             System.out.println("Account ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                            startActivity(userHomeIntent);
                         }
 
                         @Override

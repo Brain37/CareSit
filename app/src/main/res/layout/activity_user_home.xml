@@ -13,32 +13,42 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/startTimeEditText" />
+        android:layout_height="30dp"
+        android:id="@+id/startTimeEditText"
+        android:hint="start time"
+        android:textSize="8dp" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/startDateEditText"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:hint="start date"
+        android:textSize="8dp" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/endTimeEditText"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:hint="end time"
+        android:textSize="8dp" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/endDateEditText"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:hint="end date"
+        android:textSize="8dp" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/descriptionEditText"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:hint="description"
+        android:textSize="8dp" />
 
     <Button
         android:layout_width="wrap_content"

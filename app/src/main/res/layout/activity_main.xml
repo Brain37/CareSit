@@ -13,7 +13,8 @@
         android:id="@+id/username"
         android:padding="20dp"
         android:clickable="true"
-        android:hint="username" />
+        android:hint="username"
+        android:text="user@user.com" />
 
     <EditText
         android:layout_width="match_parent"
@@ -22,7 +23,8 @@
         android:padding="20dp"
         android:clickable="true"
         android:hint="password"
-        android:password="true" />
+        android:password="true"
+        android:text="abc123" />
 
     <LinearLayout
         android:orientation="horizontal"
