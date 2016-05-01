@@ -9,6 +9,8 @@ public class Request
     String endTime;
     String startDate;
     String endDate;
+    String provider;
+    String user;
 
     public String getEndTime() {
         return endTime;
@@ -52,6 +54,14 @@ public class Request
 
     String description;
 
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
     public Request()
     {
         this.startDate = "";
@@ -59,5 +69,7 @@ public class Request
         this.endDate = "";
         this.endTime = "";
         this.description = "";
+        this.provider = "n/a";
+        this.user = Core.myFirebaseRef.getAuth().getUid();
     }
 }

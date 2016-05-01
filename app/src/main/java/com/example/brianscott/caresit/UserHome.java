@@ -3,23 +3,20 @@ package com.example.brianscott.caresit;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+import com.firebase.ui.FirebaseListAdapter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
 
 public class UserHome extends AppCompatActivity
 {
@@ -30,18 +27,16 @@ public class UserHome extends AppCompatActivity
     EditText description;
     ListView theListView;
     Button purchaseButton;
-    Firebase myFirebaseRef;
     Firebase serviceRequestsRef;
-    String toAdd;
+    LinkedList<String> theRequests;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
         Firebase.setAndroidContext(this);
-        myFirebaseRef = new Firebase("https://blazing-heat-8324.firebaseio.com/");
 
+        theRequests = new LinkedList<String>();
         startTime = (EditText) this.findViewById(R.id.startTimeEditText);
         endTime = (EditText) this.findViewById(R.id.endTimeEditText);
         startDate = (EditText) this.findViewById(R.id.startDateEditText);
@@ -49,23 +44,31 @@ public class UserHome extends AppCompatActivity
         description = (EditText) this.findViewById(R.id.descriptionEditText);
 
         theListView = (ListView) this.findViewById(R.id.userListView);
-        ListAdapter theAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, toAdd);
-        theListView.setAdapter(theAdapter);
+        //ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, theRequests);
+        Firebase ref = new Firebase("https://<yourapp>.firebaseio.com");
+        ListAdapter adapter = new FirebaseListAdapter<Request>(this, Request.class, android.R.layout.two_line_list_item, Core.myFirebaseRef)
+        {
+            @Override
+            protected void populateView(View view, Request request, int i)
+            {
+                theListView.setAdapter(this);
+            }
+        };
 
-        purchaseButton = (Button)this.findViewById(R.id.purchaseButton);
 
-        serviceRequestsRef = myFirebaseRef.child("service requests");
+        purchaseButton = (Button) this.findViewById(R.id.purchaseButton);
+
+        serviceRequestsRef = Core.myFirebaseRef.child("service requests");
 
         purchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Request newRequest = new Request();
-                newRequest.setEndDate(endDate.toString());
-                newRequest.setDescription(description.toString());
-                newRequest.setEndTime(endTime.toString());
-                newRequest.setStartDate(startDate.toString());
-                newRequest.setStartTime(startTime.toString());
+                newRequest.setEndDate(endDate.getText().toString());
+                newRequest.setDescription(description.getText().toString());
+                newRequest.setEndTime(endTime.getText().toString());
+                newRequest.setStartDate(startDate.getText().toString());
+                newRequest.setStartTime(startTime.getText().toString());
 
                 serviceRequestsRef.push().setValue(newRequest);
 
@@ -76,15 +79,18 @@ public class UserHome extends AppCompatActivity
                 description.setText("");
 
 
-                myFirebaseRef.child("service requests").addValueEventListener(new ValueEventListener() {
+                Core.myFirebaseRef.child("service requests").addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(DataSnapshot snapshot)
                     {
-                        String toAdd = "Start Time: " + startTime + " Start Date: " + startDate + " - " + "\n" + "End Time: " + endTime + " End Date: " + endDate + "\n" + "Description: " +description;
+                        String toAdd = "Start Time: " + startTime + " Start Date: " + startDate + " - " + "\n" + "End Time: " + endTime + " End Date: " + endDate + "\n" + "Description: " + description;
+                        theRequests.add(toAdd);
+
                     }
 
-                    @Override public void onCancelled(FirebaseError error)
+                    @Override
+                    public void onCancelled(FirebaseError error)
                     {
 
                     }
@@ -92,7 +98,5 @@ public class UserHome extends AppCompatActivity
                 });
             }
         });
-
     }
-
 }

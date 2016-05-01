@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity
     Button loginButton;
     Button registerButton;
     Button forgotPasswordButton;
-    Firebase myFirebaseRef;
     Account currentUser;
     Intent registerIntent;
     Intent userHomeIntent;
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
-        myFirebaseRef = new Firebase("https://blazing-heat-8324.firebaseio.com/");
         setContentView(R.layout.activity_main);
         registerIntent = new Intent(getApplicationContext(), Register.class);
 
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity
             {
                 {
                     currentUser = new Account(username.getText().toString(), password.getText().toString());
-                    myFirebaseRef.authWithPassword(currentUser.getUsername(), currentUser.getPassword(), new Firebase.AuthResultHandler()
+                    Core.myFirebaseRef.authWithPassword(currentUser.getUsername(), currentUser.getPassword(), new Firebase.AuthResultHandler()
                     {
                         @Override
                         public void onAuthenticated(AuthData authData)
